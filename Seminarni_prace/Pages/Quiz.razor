@@ -9,24 +9,29 @@
         <label>Zadejte otázku:</label>
         <input type="text" @bind="NewQuestion.Question" class="form-control" />
 
-        <label>Odpověď 1:</label>
-        <input type="text" @bind="NewQuestion.Answers[0]" class="form-control" />
+        @for (var i = 0; i < NewQuestion.Answers.Count; i++)
+        {
+            var index = i;
+            <div class="input-group mb-3">
+                <label>@($"Odpověď {i + 1}:")</label>
+                <input type="text" value="@NewQuestion.Answers[index]" @onchange="(e) => UpdateAnswer(e, index)" class="form-control" placeholder="Odpověď @(index + 1)" />
+                @if (i > 1)
+                {
+                    <div class="input-group-append">
+                        <button class="btn btn-danger" @onclick="() => RemoveAnswer(index)">Odstranit</button>
+                    </div>
+                }
+            </div>
+        }
 
-        <label>Odpověď 2:</label>
-        <input type="text" @bind="NewQuestion.Answers[1]" class="form-control" />
-
-        <label>Odpověď 3:</label>
-        <input type="text" @bind="NewQuestion.Answers[2]" class="form-control" />
-
-        <label>Odpověď 4:</label>
-        <input type="text" @bind="NewQuestion.Answers[3]" class="form-control" />
+        <button @onclick="AddAnswer" class="btn btn-success mb-3">Přidat odpověď</button>
 
         <label>Správná odpověď:</label>
         <select @bind="NewQuestion.CorrectAnswerIndex" class="form-control">
-            <option value="0">Odpověď 1</option>
-            <option value="1">Odpověď 2</option>
-            <option value="2">Odpověď 3</option>
-            <option value="3">Odpověď 4</option>
+            @for (var i = 0; i < NewQuestion.Answers.Count; i++)
+            {
+                <option value="@i">Odpověď @(i + 1)</option>
+            }
         </select>
 
         <button @onclick="AddQuestion" class="btn btn-primary mt-2">Přidat otázku</button>
@@ -39,18 +44,27 @@
 
 @foreach (var question in Questions)
 {
-    <div>
+    <div class="box-quiz">
+        @if (IsEditMode)
+        {
+            <button class="btn btn-danger" @onclick="()=>Smazat(question)">
+                Smazat
+            </button>
+        }
         <p>@question.Question</p>
         @for (int i = 0; i < question.Answers.Count; i++)
         {
             <div>
-                <input type="radio" name="@question.Question" @onchange="() => SelectAnswer(question, i)" /> @question.Answers[i]
+               
+                <input disabled="@ShowResults" type="radio" value="@i" name="@question.Question" @onchange="(e) => SelectAnswer(question, e)" /> @question.Answers[i]
             </div>
         }
     </div>
 }
 
-<button @onclick="EvaluateQuiz" class="btn btn-success mt-2">Vyhodnotit</button>
+<button @onclick="EvaluateQuiz" class="btn btn-primary mt-2">Vyhodnotit</button>
+<div id="znovu" onclick="location.reload()"></div>  @* reload pro resetnutí stránky přes JS proto nedávam zavináč *@
+
 
 @if (ShowResults)
 {
@@ -58,11 +72,8 @@
     @foreach (var result in Results)
     {
         <div>
+
             <p>@result.Question.Question - @(result.IsCorrect ? "Správně" : "Špatně")</p>
         </div>
     }
-}
-
-@code {
-  
 }

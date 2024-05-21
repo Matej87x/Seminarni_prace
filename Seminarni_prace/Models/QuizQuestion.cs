@@ -8,7 +8,7 @@
 
         public QuizQuestion()
         {
-            Answers = new List<string>(new string[4]);
+            Answers = new List<string>(new string[2]);
         }
     }
 }

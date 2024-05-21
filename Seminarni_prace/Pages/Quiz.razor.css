@@ -1,0 +1,14 @@
+﻿.box-quiz {
+    margin-top: 2rem;
+}
+.box-quiz p {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+#znovu {
+    width: 50px;
+    height: 50px;
+    background-image: url('../img/znovu.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+}

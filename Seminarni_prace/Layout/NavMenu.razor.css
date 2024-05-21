@@ -60,7 +60,8 @@
     color: white;
 }
 
-.nav-item ::deep a:hover {
+.nav-item ::deep a:
+{
     background-color: rgba(255,255,255,0.1);
     color: white;
 }

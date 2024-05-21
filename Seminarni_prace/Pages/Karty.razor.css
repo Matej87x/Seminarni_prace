@@ -15,8 +15,12 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
-.flip-card:hover .flip-card-inner {
+.flip-card .flip-card-inner {
+    transition: 2s transform ease-in-out;
+}
+.flip-card.active .flip-card-inner {
     transform: rotateY(180deg);
+    transition: 2s transform ease-in-out;
 }
 
 .flip-card-front, .flip-card-back {
@@ -25,6 +29,10 @@
     height: 100%;
     backface-visibility: hidden;
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .flip-card-front {

@@ -7,7 +7,7 @@
 <body>
     <div>
         <h3>Otáčecí karty</h3>
-        <p>Pokud najedete na kartičku myší, zobrazí se správná odpověď</p>
+        <p>Pokud kliknete na kartičku myší, zobrazí se správná odpověď</p>
         @if (IsEditMode)
         {
             <div>
@@ -34,7 +34,7 @@
                             Smazat
                         </button>
                     }
-                    <div class="flip-card">
+                    <div class="flip-card" onclick="toggleClass(this)">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <h1>@item.Otazka</h1>
@@ -50,6 +50,12 @@
 
         <button @onclick="ToggleEditMode" class="btn btn-primary mt-2">@((IsEditMode) ? "Ukončit úpravy" : "Přidání otázek")</button>
     </div>
+
+    <script>
+        function toggleClass(element) {
+            element.classList.toggle("active");
+        }
+    </script>
 </body>
 </html>
 

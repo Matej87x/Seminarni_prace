@@ -1,20 +1,21 @@
-﻿
+﻿using Microsoft.AspNetCore.Components;
 using Seminarni_prace.Models;
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace Seminarni_prace.Pages
 {
     public partial class Quiz
     {
-        // Seznam otázek v kvízu
         private List<QuizQuestion> Questions = new List<QuizQuestion>();
-        // Nová otázka, která se přidává
         private QuizQuestion NewQuestion = new QuizQuestion();
         private bool IsEditMode = false;
-        // Slovník pro uchování uživatelských odpovědí na otázky
         private Dictionary<QuizQuestion, int> SelectedAnswers = new Dictionary<QuizQuestion, int>();
-        // Seznam výsledků kvízu pro zobrazení
+     
         private List<(QuizQuestion Question, bool IsCorrect)> Results = new List<(QuizQuestion Question, bool IsCorrect)>();
-        // Indikátor, zda se mají zobrazit výsledky
+      
         private bool ShowResults = false;
+
 
         // Metoda pro přidání nové otázky do seznamu otázek
         private void AddInitialQuestions()
@@ -45,8 +46,38 @@ namespace Seminarni_prace.Pages
 
         private void AddQuestion()
         {
-            Questions.Add(NewQuestion);
-            NewQuestion = new QuizQuestion();
+            if (!string.IsNullOrEmpty(NewQuestion.Question) && NewQuestion.Answers.Count > 0)
+            {
+                Questions.Add(NewQuestion);
+                NewQuestion = new QuizQuestion();
+            }
+        }
+
+        private void Smazat(QuizQuestion question)
+        {
+            Questions.Remove(question);
+        }
+
+        private void RemoveAnswer(int index)
+        {
+            if (index >= 0 && index < NewQuestion.Answers.Count)
+            {
+                NewQuestion.Answers.RemoveAt(index);
+            }
+        }
+
+        private void AddAnswer()
+        {
+            NewQuestion.Answers.Add(string.Empty);
+        }
+
+        private void UpdateAnswer(ChangeEventArgs e, int index)
+        {
+            Debug.WriteLine($"Updated answer at index: {index}, New value:{e.Value}");
+            if (index >= 0 && index < NewQuestion.Answers.Count)
+            {
+                NewQuestion.Answers[index] = e.Value?.ToString() ?? string.Empty;
+            }
         }
 
         // Metoda pro přepínání editačního režimu
@@ -56,35 +87,39 @@ namespace Seminarni_prace.Pages
         }
 
         // Metoda pro výběr odpovědi na otázku
-        private void SelectAnswer(QuizQuestion question, int answerIndex)
+        private void SelectAnswer(QuizQuestion question, ChangeEventArgs e)
         {
             // Uloží vybranou odpověď pro danou otázku do slovníku
-            SelectedAnswers[question] = answerIndex;
+            SelectedAnswers[question] = Int32.Parse(e.Value.ToString());
         }
 
         // Metoda pro vyhodnocení kvízu
-        private void EvaluateQuiz()
+         private void EvaluateQuiz()
         {
-            // Vyčistí předchozí výsledky
-            Results.Clear();
-            foreach (var question in Questions)
+            if (!ShowResults)
             {
-                // Získá vybranou odpověď pro danou otázku
-                if (SelectedAnswers.TryGetValue(question, out int selectedAnswerIndex))
+                // Vyčistí předchozí výsledky
+                Results.Clear();
+                foreach (var question in Questions)
                 {
-                    // Porovná vybranou odpověď se správnou odpovědí
-                    bool isCorrect = selectedAnswerIndex == question.CorrectAnswerIndex;
-                    // Přidá výsledek do seznamu výsledků
-                    Results.Add((question, true));
+                    // Získá vybranou odpověď pro danou otázku
+                    if (SelectedAnswers.TryGetValue(question, out int selectedAnswerIndex))
+                    {
+                        // Porovná vybranou odpověď se správnou odpovědí
+                        bool isCorrect = selectedAnswerIndex == question.CorrectAnswerIndex;
+                        // Přidá výsledek do seznamu výsledků
+                        Results.Add((question, isCorrect));
+                    }
+                    else
+                    {
+                        // Pokud nebyla vybrána žádná odpověď, je odpověď nesprávná
+                        Results.Add((question, false));
+                    }
                 }
-                else
-                {
-                    // Pokud nebyla vybrána žádná odpověď, je odpověď nesprávná
-                    Results.Add((question, false));
-                }
+                ShowResults = true;
             }
-            // Nastaví indikátor zobrazení výsledků
-            ShowResults = true;
+            
+            
         }
     }
 }

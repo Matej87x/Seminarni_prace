@@ -1,7 +1,0 @@
-﻿.box {
-    width: 200px;
-    height: 300px;
-    border: 2px solid black; /* Černé ohraničení */
-    padding: 10px;
-    box-sizing: border-box;
-}
