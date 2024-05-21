@@ -2,61 +2,58 @@
 
 <!DOCTYPE html>
 <html>
-<head>    
+<head>
 </head>
 <body>
-    
-
-    <h1>Otáčecí karty</h1>
-    <h3>Pokud najedeš na kartičku, zobrazí se správná odpověď</h3>
-    @if (IsEditMode)
-    {
-        <div>
-            <label>
-                Zadejte otázku
-                <input type="text" @bind-value="Question" class="form-control" />
-            </label>
-
-            <label>
-                Zadejte odpověď
-                <input type="text" @bind-value="Answer" class="form-control" />
-            </label>
-
-            <button @onclick="AddToKartys" class="btn btn-primary mt-2">Přidej</button>
-        </div>
-    }
-   
-    @foreach (var item in Kartys)
-    {
+    <div>
+        <h3>Otáčecí karty</h3>
+        <p>Pokud najedete na kartičku myší, zobrazí se správná odpověď</p>
         @if (IsEditMode)
         {
-            <button @onclick="()=>Smazat(item)">
-                Smazat
-            </button>
+            <div>
+                <label>
+                    Zadejte otázku
+                    <input type="text" @bind-value="Question" class="form-control" />
+                </label>
+
+                <label>
+                    Zadejte odpověď
+                    <input type="text" @bind-value="Answer" class="form-control" />
+                </label>
+
+                <button @onclick="AddToKartys" class="btn btn-primary mt-2">Přidej</button>
+            </div>
         }
-        <div class="flip-card">
-            <div class="flip-card-inner">
-            <div class="flip-card-front">
-                <h1>@item.Otazka</h1>
-            </div>
-            <div class="flip-card-back">
-                <h1>@item.UrciteSlovo</h1>
-                
-            </div>
+        <div class="row mt-4">
+            @foreach (var item in Kartys)
+            {
+                <div class="col-sm-4 mb-4">
+                    @if (IsEditMode)
+                    {
+                        <button @onclick="()=>Smazat(item)" class="btn btn-danger mb-2">
+                            Smazat
+                        </button>
+                    }
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h1>@item.Otazka</h1>
+                            </div>
+                            <div class="flip-card-back">
+                                <h1>@item.UrciteSlovo</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
+
+        <button @onclick="ToggleEditMode" class="btn btn-primary mt-2">@((IsEditMode) ? "Ukončit úpravy" : "Přidání otázek")</button>
     </div>
-   
-    }
-
-
-    <button @onclick="ToggleEditMode" class="btn btn-primary mt-2">@((IsEditMode) ? "Ukončit úpravy" : "Přidání otázek")</button>
-
 </body>
 </html>
- 
-
-
 
 @code {
-
+   
 }
+

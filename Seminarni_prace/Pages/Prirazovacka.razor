@@ -43,27 +43,15 @@
                 }
             }
         }
-
-        // var staticItems = Html.Raw(System.Text.Json.JsonSerializer.Serialize(Static));
-        // staticItems.forEach(function (staticItem) {
-        //     var imgDiv = document.getElementById('div-img-' + staticItem.Rok);
-        //     var button = imgDiv.querySelector('button');
-        //     console.log(imgDiv);
-        //     console.log(button);
-
-        //     if (button) {
-        //         var isCorrect = staticItem.UrciteSlovo.split('/').pop().split('.')[0].toLowerCase() === button.innerText.toLowerCase();
-        //         if (isCorrect) {
-        //             button.style.backgroundColor = 'green';
-        //         } else {
-        //             button.style.backgroundColor = 'red';
-        //         }
-        //     }
-        // });
     }
 </script>
 
- <h3>Prirazovacka</h3>
+ <h2>Přiřazovačka</h2>
+<h3>Správně umístetě název zvířete k obrázku pomocí přesunu názvu na obrázek, pokud si budete myslet že máte hotovo stačí stisknout tlačítko vyhodnotit.</h3>
+<p>Ty zvířata které budou mít zelenou barvu máte dobře, zvířata označeně červeně jsou špatně.</p>
+<p> Pro restartování aplikace můžete použít červené tlačítko.</p>
+<div id="znovu" onclick="location.reload()"></div>  @* reload pro resetnutí stránky přes JS proto nedávam zavináč *@
+ 
 
 @if (IsEditMode)
 {
@@ -80,8 +68,6 @@
 
         <button @onclick="Pridej" class="btn btn-primary mt-2">Přidej</button>
     </div>
-
-
 }
 
 <div style="display: flex; flex-wrap: wrap;">
@@ -89,7 +75,7 @@
     {
         @if (IsEditMode)
         {
-             <button @onclick="()=>Smazat(item)">
+            <button class ="btn btn-danger" @onclick="()=>Smazat(item)">
                 Smazat
         </button>
         }
@@ -105,18 +91,18 @@
     {
         @if (IsEditMode)
         {
-            <button @onclick="()=>Smazat(item)">
+            <button class="btn btn-danger" @onclick="()=>Smazat(item)">
                 Smazat
             </button>
         }
-        <button id="btn-@item.Rok" element_id="@item.Rok" draggable="true" ondragstart="drag(event)" style="margin: 5px;">@item.UrciteSlovo</button>
+        <button id="btn-@item.Rok" class="btn btn-light" element_id="@item.Rok" draggable="true" ondragstart="drag(event)" style="margin: 5px;">@item.UrciteSlovo</button>
     }
 </div>
 
-<button onclick="test()" style="margin-top: 20px;">Vyhodnotit</button>
+<button onclick="test()" class= "btn btn-primary mt-2" >Vyhodnotit</button>
 <button @onclick="ToggleEditMode" class="btn btn-primary mt-2">@((IsEditMode) ? "Ukončit úpravy" : "Přidání otázek")</button>
 
- 
+
 
 @code {
 

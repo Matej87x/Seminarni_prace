@@ -1,0 +1,68 @@
+﻿@page "/quiz"
+@using System.Collections.Generic
+
+<h3>Přidání nové otázky do kvízu</h3>
+
+@if (IsEditMode)
+{
+    <div class="form-group">
+        <label>Zadejte otázku:</label>
+        <input type="text" @bind="NewQuestion.Question" class="form-control" />
+
+        <label>Odpověď 1:</label>
+        <input type="text" @bind="NewQuestion.Answers[0]" class="form-control" />
+
+        <label>Odpověď 2:</label>
+        <input type="text" @bind="NewQuestion.Answers[1]" class="form-control" />
+
+        <label>Odpověď 3:</label>
+        <input type="text" @bind="NewQuestion.Answers[2]" class="form-control" />
+
+        <label>Odpověď 4:</label>
+        <input type="text" @bind="NewQuestion.Answers[3]" class="form-control" />
+
+        <label>Správná odpověď:</label>
+        <select @bind="NewQuestion.CorrectAnswerIndex" class="form-control">
+            <option value="0">Odpověď 1</option>
+            <option value="1">Odpověď 2</option>
+            <option value="2">Odpověď 3</option>
+            <option value="3">Odpověď 4</option>
+        </select>
+
+        <button @onclick="AddQuestion" class="btn btn-primary mt-2">Přidat otázku</button>
+    </div>
+}
+
+<button @onclick="ToggleEditMode" class="btn btn-secondary mt-2">@((IsEditMode) ? "Ukončit úpravy" : "Přidání otázek")</button>
+
+<h3>Seznam otázek</h3>
+
+@foreach (var question in Questions)
+{
+    <div>
+        <p>@question.Question</p>
+        @for (int i = 0; i < question.Answers.Count; i++)
+        {
+            <div>
+                <input type="radio" name="@question.Question" @onchange="() => SelectAnswer(question, i)" /> @question.Answers[i]
+            </div>
+        }
+    </div>
+}
+
+<button @onclick="EvaluateQuiz" class="btn btn-success mt-2">Vyhodnotit</button>
+
+@if (ShowResults)
+{
+    <h3>Výsledky</h3>
+    @foreach (var result in Results)
+    {
+        <div>
+            <p>@result.Question.Question - @(result.IsCorrect ? "Správně" : "Špatně")</p>
+        </div>
+    }
+}
+
+@code {
+  
+}

@@ -33,9 +33,11 @@ namespace Seminarni_prace.Pages
 
         public void AddToStaticIni()
         {
-            Static.Add(new Models.Cas(0, "../img/Kocka.jpeg"));
             Static.Add(new Models.Cas(1, "../img/Kun.jpg"));
+            Static.Add(new Models.Cas(0, "../img/Kocka.jpeg"));
             Static.Add(new Models.Cas(2, "../img/Pes.jpeg"));
+      
+      
         }
 
         public void AddToActiveIni()

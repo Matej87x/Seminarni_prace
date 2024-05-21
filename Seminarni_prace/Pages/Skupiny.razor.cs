@@ -44,17 +44,23 @@ namespace Seminarni_prace.Pages
         public void PridejStat()
         {
             Skupinas.Add(new Models.Skupina("Nigerie", 1, 0));
-            Skupinas.Add(new Models.Skupina("Egypt", 1, 1));
-            Skupinas.Add(new Models.Skupina("JAR", 1, 2));
-            Skupinas.Add(new Models.Skupina("Korea", 0, 3));
-            Skupinas.Add(new Models.Skupina("Čína", 0, 4));
+            Skupinas.Add(new Models.Skupina("Francie", 2, 8));
             Skupinas.Add(new Models.Skupina("Vietnam", 0, 5));
+            Skupinas.Add(new Models.Skupina("Egypt", 1, 1));
+            Skupinas.Add(new Models.Skupina("Korea", 0, 3));
+            Skupinas.Add(new Models.Skupina("Slovensko", 2, 7));
+            Skupinas.Add(new Models.Skupina("Čína", 0, 4));
+            Skupinas.Add(new Models.Skupina("JAR", 1, 2));
+            Skupinas.Add(new Models.Skupina("Česká Republika", 2, 6));
+          
+          
 
         }
         public void PridejRozdeleni()
         {
             Rozdeleni.Add(new Models.Skupina("Afrika", 1, 1));
             Rozdeleni.Add(new Models.Skupina("Asie", 0, 0));
+            Rozdeleni.Add(new Models.Skupina("Evropa", 2, 2));
 
         }
         private void ToggleEditMode()

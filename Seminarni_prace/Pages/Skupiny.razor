@@ -1,103 +1,108 @@
 ﻿
 
 @page "/skupiny"
+
 @using Microsoft.JSInterop
 
 <script>
+
     function allowDrop(ev) {
+
         ev.preventDefault();
+
     }
 
     function drag(ev) {
+
         ev.dataTransfer.setData("text", ev.target.id);
+
     }
 
     function drop(ev) {
+
         ev.preventDefault();
+
         var data = ev.dataTransfer.getData("text");
+
         ev.target.appendChild(document.getElementById(data));
+
     }
+
     function test() {
-        var t = document.getElementsByClassName("div-img");
+
+        var t = document.getElementsByClassName("box");
+
         for (let item of t) {
             var custom_ID_div = item.getAttribute("element_id");
-            console.log(custom_ID_div);
             for (const child of item.children) {
                 if (child.tagName == "BUTTON") {
                     var custom_ID_button = child.getAttribute("element_id")
-                    console.log(custom_ID_button);
                     if (custom_ID_button == custom_ID_div) {
                         child.style.backgroundColor = 'green';
                     } else {
                         child.style.backgroundColor = 'red';
+
                     }
+
                 }
+
             }
+
         }
+
     }
+
 </script>
-<h3>Skupiny</h3>
+
+<h2>Skupiny</h2>
+<h3>Správně umístetě název státu ke kontinentu do kterého patří pomocí přesunu státu na kontinent, pokud si budete myslet že máte hotovo stačí stisknout tlačítko vyhodnotit.</h3>
+<p>Ty státy které budou mít zelenou barvu máte dobře, státy označeně červeně jsou špatně.</p>
+<p> Pro restartování aplikace můžete použít červené tlačítko.</p>
+<br />
+<br />
+
+
 @* <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
 <br>
+
 <button id="drag1" draggable="true" ondragstart="drag(event)">Presouvatko</button> *@
-<button @onclick="ToggleEditMode">EDITACE</button>
-@if (IsEditMode)
-{
-    <label>
-    zadejte název věci
-    <input type="name" @bind-value="AddJmeno" />
-</label>
-<label>
-    zadejte v jaké skupině se má nacházet (0, nebo 1)
-    <input type="Number" @bind-value="IDskup" />
-</label>
-<button @onclick=AddToSkupinas> Přidat </button>
+<div class="container">
 
-<label>
-    zadejte název Skupiny
-    <input type="name" @bind-value="AddJmeno1" />
-</label>
-<label>
-    zadejte jakou skupinu bude reprezentovat (0, nebo 1)
-    <input type="Number" @bind-value="IDskup1" />
-</label>
-<button @onclick=AddToRozdeleni> Přidat </button>
-}
+    @foreach (var item in Rozdeleni)
 
-
-
-   
-   
-    <div class="container">
-        @foreach (var item in Rozdeleni)
-        {
-            
-            <div id="skupina-@item.IDS" class="box" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <h4>@item.UrciteSlovo</h4>
-            </div>
-        }
-    </div>
-        
-      
-                        
-
-                
-
-
-<p>
-    @foreach (var item in Skupinas)
     {
-        <button  id="@item.IDS" draggable="true" ondragstart="drag(event)">@item.UrciteSlovo</button>
 
+        <div id="skupina-@item.IDS" element_id="@item.IDS" class="box" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+            <h4>@item.UrciteSlovo</h4>
+
+        </div>
 
     }
-</p>
 
-<button onclick="test()">Vyhodnotit</button>
+</div>
+<br />
 
+<br /><br />
+<div class="container">
+<p>
 
+    @foreach (var item in Skupinas)
+
+    {
+
+            <button class="btn btn-light"  id="@item.IDS" element_id="@item.Skupinka" draggable="true" ondragstart="drag(event)">@item.UrciteSlovo</button>
+
+    }
+
+    </p>
+</div>
+<div class="container">
+<button class="btn btn-primary"  onclick="test()">Vyhodnotit</button>
+<div id="znovu" onclick="location.reload()"></div>  @* reload pro resetnutí stránky přes JS proto nedávam zavináč *@
+</div>
 @code {
-    
-   
-}
 
+
+}
