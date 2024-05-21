@@ -1,0 +1,123 @@
+﻿
+@page "/Prirazovacka"
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+  
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var button = document.getElementById(data);
+        var targetDiv = ev.target.tagName === "IMG" ? ev.target.parentElement : ev.target;
+
+        if (targetDiv.className != "box") {
+            if ((targetDiv.tagName === "DIV" && targetDiv.querySelector("button") === null)) {
+                targetDiv.appendChild(button);
+            }
+        } else { 
+            targetDiv.appendChild(button);
+        }
+        
+    }
+
+    function test() {
+        var t = document.getElementsByClassName("div-img");
+        for (let item of t) {
+            var custom_ID_div = item.getAttribute("element_id");
+            console.log(custom_ID_div);
+            for (const child of item.children) {
+                if (child.tagName == "BUTTON") {
+                    var custom_ID_button = child.getAttribute("element_id")
+                    console.log(custom_ID_button);
+                    if (custom_ID_button == custom_ID_div) {
+                        child.style.backgroundColor = 'green';
+                    } else {
+                        child.style.backgroundColor = 'red';
+                    }
+                }
+            }
+        }
+
+        // var staticItems = Html.Raw(System.Text.Json.JsonSerializer.Serialize(Static));
+        // staticItems.forEach(function (staticItem) {
+        //     var imgDiv = document.getElementById('div-img-' + staticItem.Rok);
+        //     var button = imgDiv.querySelector('button');
+        //     console.log(imgDiv);
+        //     console.log(button);
+
+        //     if (button) {
+        //         var isCorrect = staticItem.UrciteSlovo.split('/').pop().split('.')[0].toLowerCase() === button.innerText.toLowerCase();
+        //         if (isCorrect) {
+        //             button.style.backgroundColor = 'green';
+        //         } else {
+        //             button.style.backgroundColor = 'red';
+        //         }
+        //     }
+        // });
+    }
+</script>
+
+ <h3>Prirazovacka</h3>
+
+@if (IsEditMode)
+{
+    <div>
+        <label>
+            Zadejte url obrázku:
+            <input type="text" @bind-value="Obrazek" class="form-control" />
+        </label>
+
+        <label>
+            Zadejte Slovo odpovídající obrázku
+            <input type="text" @bind-value="SlovoObrazek" class="form-control" />
+        </label>
+
+        <button @onclick="Pridej" class="btn btn-primary mt-2">Přidej</button>
+    </div>
+
+
+}
+
+<div style="display: flex; flex-wrap: wrap;">
+    @foreach (var item in Static)
+    {
+        @if (IsEditMode)
+        {
+             <button @onclick="()=>Smazat(item)">
+                Smazat
+        </button>
+        }
+        <div class="div-img" element_id="@item.Rok" ondrop="drop(event)" ondragover="allowDrop(event)" style="margin: 10px; text-align: center;">
+            <img src="@item.UrciteSlovo" width="300" height="300">
+            <div style="margin-top: 10px;"></div>
+        </div>
+    }
+</div>
+
+<div style="margin-top: 20px;" class="box" ondrop="drop(event)" ondragover="allowDrop(event)">
+    @foreach (var item in Active)
+    {
+        @if (IsEditMode)
+        {
+            <button @onclick="()=>Smazat(item)">
+                Smazat
+            </button>
+        }
+        <button id="btn-@item.Rok" element_id="@item.Rok" draggable="true" ondragstart="drag(event)" style="margin: 5px;">@item.UrciteSlovo</button>
+    }
+</div>
+
+<button onclick="test()" style="margin-top: 20px;">Vyhodnotit</button>
+<button @onclick="ToggleEditMode" class="btn btn-primary mt-2">@((IsEditMode) ? "Ukončit úpravy" : "Přidání otázek")</button>
+
+ 
+
+@code {
+
+}

@@ -1,0 +1,84 @@
+﻿@page "/kviz"
+<h3>Kviz</h3>
+<h2>otázka číslo @CisloHelp3</h2>
+<div class="container mt-4">
+    <div class="row">
+        @foreach (var item in Kviziks)
+        {
+            @if (CisloHelp2 == item.Cislo)
+            {
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.UrciteSlovo</h5>
+                            <EditForm Model="@item">
+                                <InputRadioGroup @bind-Value="item.SelectedAnswer">
+                                    <ul class="list-group list-group-flush">
+                                        @foreach (var answer in new List<string> { item.OdpovedSpatna1, item.OdpovedSpatna2, item.OdpovedSpatna3, item.OdpovedSpravna })
+                                        {
+                                            var backgroundColor = "";
+                                            if (IsTestEvaluated)
+                                            {
+                                                backgroundColor = answer == item.OdpovedSpravna ? "bg-success" : (answer == item.SelectedAnswer ? "bg-danger" : "");
+                                            }
+                                            <li class="list-group-item @backgroundColor">
+                                                <InputRadio class="form-check-input" Value="@(answer)" disabled="@IsTestEvaluated" />
+                                                <label class="form-check-label">@answer</label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </InputRadioGroup>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+@if (IsTestEvaluated)
+{
+    <div class="alert alert-success mt-4">
+        Počet správných odpovědí: @CorrectAnswersCount / @Kviziks.Count
+    </div>
+}
+
+@if (isLastQuestion)
+{
+    <button @onclick="VyhodnotitKviz" class="btn btn-warning mt-2">Vyhodnotit test</button>
+}
+<button @onclick="ToggleEditMode" class="btn btn-primary mt-2">Přidání otázek</button>
+<button @onclick="DalsiOtazka" class="btn btn-primary mt-2">Další otázka</button>
+<button @onclick="PredchoziOtazka" class="btn btn-primary mt-2">Předchozí otázka</button>
+@if (IsEditMode)
+{
+    <div class="form-group">
+        <label>Zadejte otázku</label>
+        <input type="text" @bind-value="Otazka" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Zadejte SPRÁVNOU odpověď </label>
+        <input type="text" @bind-value="OdpovedR" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Zadejte ŠPATNOU odpověď </label>
+        <input type="text" @bind-value="Odpoved2" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Zadejte  ŠPATNOU odpověď </label>
+        <input type="text" @bind-value="Odpoved3" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Zadejte ŠPATNOU odpověď </label>
+        <input type="text" @bind-value="Odpoved1" class="form-control" />
+    </div>
+    <button @onclick="AddToKviziks" class="btn btn-primary mt-2">Přidej</button>
+
+    }
+    @code {
+
+}
