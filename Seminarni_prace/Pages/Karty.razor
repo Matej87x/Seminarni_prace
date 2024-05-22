@@ -4,10 +4,17 @@
 <html>
 <head>
 </head>
+<script>
+    //Script zajištující otáčení karet na kliknutí
+    function toggleClass(element) {
+        element.classList.toggle("active");
+    }
+</script>
 <body>
     <div>
         <h3>Otáčecí karty</h3>
         <p>Pokud kliknete na kartičku myší, zobrazí se správná odpověď</p>
+        @*Editace*@
         @if (IsEditMode)
         {
             <div>
@@ -25,6 +32,7 @@
             </div>
         }
         <div class="row mt-4">
+            @*Vypsání karet z listu*@
             @foreach (var item in Kartys)
             {
                 <div class="col-sm-4 mb-4">
@@ -51,11 +59,7 @@
         <button @onclick="ToggleEditMode" class="btn btn-primary mt-2">@((IsEditMode) ? "Ukončit úpravy" : "Přidání otázek")</button>
     </div>
 
-    <script>
-        function toggleClass(element) {
-            element.classList.toggle("active");
-        }
-    </script>
+    
 </body>
 </html>
 

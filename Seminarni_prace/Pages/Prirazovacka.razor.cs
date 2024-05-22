@@ -30,7 +30,7 @@ namespace Seminarni_prace.Pages
             AddToStaticIni();
             AddToActiveIni();
         }
-
+        //Přidání obrázků a názvů po načtení stránky
         public void AddToStaticIni()
         {
             Static.Add(new Models.Cas(1, "../img/Kun.jpg"));
@@ -39,6 +39,7 @@ namespace Seminarni_prace.Pages
       
       
         }
+        //Přidání obrázků a názvů po načtení stránky
 
         public void AddToActiveIni()
         {
@@ -46,6 +47,7 @@ namespace Seminarni_prace.Pages
             Active.Add(new Models.Cas(1, "Kun"));
             Active.Add(new Models.Cas(2, "Pes"));
         }
+        //Přidání Obrázků a názvů, které chce člověk, který je na stránce
         public void AddToActive()
         {
             if (!string.IsNullOrWhiteSpace(Obrazek) && !string.IsNullOrWhiteSpace(SlovoObrazek))
@@ -54,6 +56,8 @@ namespace Seminarni_prace.Pages
                 Active.Add(cas);
             }
         }
+        //Přidání Obrázků a názvů, které chce člověk, který je na stránce
+
         public void AddToStatic()
         {
             if (!string.IsNullOrWhiteSpace(Obrazek) && !string.IsNullOrWhiteSpace(SlovoObrazek))
@@ -62,6 +66,7 @@ namespace Seminarni_prace.Pages
                 Static.Add(cas1);
             }
         }
+
         public void Pridej()
         {
             AddToActive();

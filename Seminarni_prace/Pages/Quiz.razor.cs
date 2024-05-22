@@ -53,6 +53,7 @@ namespace Seminarni_prace.Pages
             }
         }
 
+        //Smazání Otázky
         private void Smazat(QuizQuestion question)
         {
             Questions.Remove(question);
@@ -71,48 +72,36 @@ namespace Seminarni_prace.Pages
             NewQuestion.Answers.Add(string.Empty);
         }
 
+       
         private void UpdateAnswer(ChangeEventArgs e, int index)
         {
-            Debug.WriteLine($"Updated answer at index: {index}, New value:{e.Value}");
             if (index >= 0 && index < NewQuestion.Answers.Count)
             {
                 NewQuestion.Answers[index] = e.Value?.ToString() ?? string.Empty;
             }
-        }
-
-        // Metoda pro přepínání editačního režimu
-        private void ToggleEditMode()
-        {
-            IsEditMode = !IsEditMode;
-        }
-
-        // Metoda pro výběr odpovědi na otázku
+        } 
+        // výběr odpovědi na otázku
         private void SelectAnswer(QuizQuestion question, ChangeEventArgs e)
         {
             // Uloží vybranou odpověď pro danou otázku do slovníku
             SelectedAnswers[question] = Int32.Parse(e.Value.ToString());
         }
-
-        // Metoda pro vyhodnocení kvízu
-         private void EvaluateQuiz()
+        //vyhodnocení kvízu
+        private void EvaluateQuiz()
         {
             if (!ShowResults)
             {
-                // Vyčistí předchozí výsledky
                 Results.Clear();
                 foreach (var question in Questions)
                 {
                     // Získá vybranou odpověď pro danou otázku
                     if (SelectedAnswers.TryGetValue(question, out int selectedAnswerIndex))
                     {
-                        // Porovná vybranou odpověď se správnou odpovědí
                         bool isCorrect = selectedAnswerIndex == question.CorrectAnswerIndex;
-                        // Přidá výsledek do seznamu výsledků
                         Results.Add((question, isCorrect));
                     }
                     else
                     {
-                        // Pokud nebyla vybrána žádná odpověď, je odpověď nesprávná
                         Results.Add((question, false));
                     }
                 }
@@ -120,6 +109,10 @@ namespace Seminarni_prace.Pages
             }
             
             
+        }
+        private void ToggleEditMode()
+        {
+            IsEditMode = !IsEditMode;
         }
     }
 }

@@ -1,17 +1,4 @@
-﻿/*.box {
-    width: 200px;
-    height: 300px;
-    border: 2px solid black;*/ /* Černé ohraničení */
-    /*padding: 10px;
-    box-sizing: border-box;
-}
-#znovu {
-    width: 50px;
-    height: 50px;
-    background-image: url('../img/znovu.png');
-    background-repeat: no-repeat;
-    background-size: 100%;
-}*/
+﻿/*
 
 .box {
     width: 100%;
@@ -28,4 +15,24 @@
     background-image: url('../img/znovu.png');
     background-repeat: no-repeat;
     background-size: 100%;
+}*/
+.box {
+    width: 100%;
+    min-height: 300px;
+    border: 2px solid black;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #f8f9fa;
+}
+
+#znovu {
+    width: 50px;
+    height: 50px;
+    background-image: url('../img/znovu.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.div-img {
+    margin-bottom: 20px;
 }

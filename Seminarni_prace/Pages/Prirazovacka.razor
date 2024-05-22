@@ -8,7 +8,6 @@
     function drag(ev) {
         ev.dataTransfer.setData("text", ev.target.id);
     }
-  
 
     function drop(ev) {
         ev.preventDefault();
@@ -20,87 +19,85 @@
             if ((targetDiv.tagName === "DIV" && targetDiv.querySelector("button") === null)) {
                 targetDiv.appendChild(button);
             }
-        } else { 
+        } else {
             targetDiv.appendChild(button);
         }
-        
     }
+    //Porovnávaní Static divu a buttonu zdali mají stejné číslo
 
-    function test() {
-        var t = document.getElementsByClassName("div-img");
-        for (let item of t) {
-            var custom_ID_div = item.getAttribute("element_id");
-            console.log(custom_ID_div);
-            for (const child of item.children) {
-                if (child.tagName == "BUTTON") {
-                    var custom_ID_button = child.getAttribute("element_id")
-                    console.log(custom_ID_button);
-                    if (custom_ID_button == custom_ID_div) {
-                        child.style.backgroundColor = 'green';
-                    } else {
-                        child.style.backgroundColor = 'red';
+        function test() {
+            var t = document.getElementsByClassName("div-img");
+            for (let item of t) {
+                var custom_ID_div = item.getAttribute("element_id");
+                console.log(custom_ID_div);
+                for (const child of item.children) {
+                    if (child.tagName == "BUTTON") {
+                        var custom_ID_button = child.getAttribute("element_id")
+                        console.log(custom_ID_button);
+                        if (custom_ID_button == custom_ID_div) {
+                            child.style.backgroundColor = 'green';
+                        } else {
+                            child.style.backgroundColor = 'red';
+                        }
                     }
                 }
             }
-        }
-    }
+       }
+    
 </script>
 
- <h2>Přiřazovačka</h2>
-<h3>Správně umístetě název zvířete k obrázku pomocí přesunu názvu na obrázek, pokud si budete myslet že máte hotovo stačí stisknout tlačítko vyhodnotit.</h3>
-<p>Ty zvířata které budou mít zelenou barvu máte dobře, zvířata označeně červeně jsou špatně.</p>
-<p> Pro restartování aplikace můžete použít červené tlačítko.</p>
-<div id="znovu" onclick="location.reload()"></div>  @* reload pro resetnutí stránky přes JS proto nedávam zavináč *@
- 
+<h2>Přiřazovačka</h2>
+<h3>Správně umístěte název zvířete k obrázku pomocí přesunu názvu na obrázek, pokud si budete myslet, že máte hotovo, stačí stisknout tlačítko vyhodnotit.</h3>
+<p>Zvířata, která budou mít zelenou barvu, máte dobře. Zvířata označená červeně jsou špatně.</p>
+<p>Pro restartování aplikace můžete použít červené tlačítko.</p>
+<div id="znovu" onclick="location.reload()"></div>
 
 @if (IsEditMode)
 {
     <div>
         <label>
-            Zadejte url obrázku:
+            Zadejte URL obrázku:
             <input type="text" @bind-value="Obrazek" class="form-control" />
         </label>
-
         <label>
-            Zadejte Slovo odpovídající obrázku
+            Zadejte slovo odpovídající obrázku:
             <input type="text" @bind-value="SlovoObrazek" class="form-control" />
         </label>
-
         <button @onclick="Pridej" class="btn btn-primary mt-2">Přidej</button>
     </div>
 }
 
-<div style="display: flex; flex-wrap: wrap;">
-    @foreach (var item in Static)
-    {
-        @if (IsEditMode)
+<div class="container">
+    <div class="row">
+        @foreach (var item in Static)
         {
-            <button class ="btn btn-danger" @onclick="()=>Smazat(item)">
-                Smazat
-        </button>
+            <div class="col-md-4 d-flex flex-column align-items-center div-img" element_id="@item.Rok" ondrop="drop(event)" ondragover="allowDrop(event)" style="margin: 10px; text-align: center;">
+                <img src="@item.UrciteSlovo" width="250" height="250">
+                <div style="margin-top: 10px;">
+                    @if (IsEditMode)
+                    {
+                        <button class="btn btn-danger mt-2" @onclick="()=>Smazat(item)">Smazat</button>
+                    }
+                </div>
+            </div>
         }
-        <div class="div-img" element_id="@item.Rok" ondrop="drop(event)" ondragover="allowDrop(event)" style="margin: 10px; text-align: center;">
-            <img src="@item.UrciteSlovo" width="300" height="300">
-            <div style="margin-top: 10px;"></div>
-        </div>
-    }
+    </div>
 </div>
 
-<div style="margin-top: 20px;" class="box" ondrop="drop(event)" ondragover="allowDrop(event)">
+<div class="box" ondrop="drop(event)" ondragover="allowDrop(event)" style="margin-top: 20px;">
     @foreach (var item in Active)
     {
         @if (IsEditMode)
         {
-            <button class="btn btn-danger" @onclick="()=>Smazat(item)">
-                Smazat
-            </button>
+            <button class="btn btn-danger mt-2" @onclick="()=>Smazat(item)">Smazat</button>
         }
-        <button id="btn-@item.Rok" class="btn btn-light" element_id="@item.Rok" draggable="true" ondragstart="drag(event)" style="margin: 5px;">@item.UrciteSlovo</button>
+        <button  id="btn-@item.Rok" class="btn btn-light" element_id="@item.Rok" draggable="true" ondragstart="drag(event)" style="margin: 5px;">@item.UrciteSlovo</button>
     }
 </div>
 
-<button onclick="test()" class= "btn btn-primary mt-2" >Vyhodnotit</button>
+<button onclick="test()" class="btn btn-primary mt-2">Vyhodnotit</button>
 <button @onclick="ToggleEditMode" class="btn btn-primary mt-2">@((IsEditMode) ? "Ukončit úpravy" : "Přidání otázek")</button>
+
 
 
 

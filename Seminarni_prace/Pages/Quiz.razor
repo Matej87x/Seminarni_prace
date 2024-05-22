@@ -2,13 +2,13 @@
 @using System.Collections.Generic
 
 <h3>Přidání nové otázky do kvízu</h3>
-
+@* EDITACE *@
 @if (IsEditMode)
 {
     <div class="form-group">
         <label>Zadejte otázku:</label>
         <input type="text" @bind="NewQuestion.Question" class="form-control" />
-
+        @*přidání odpovědi*@
         @for (var i = 0; i < NewQuestion.Answers.Count; i++)
         {
             var index = i;
@@ -25,7 +25,7 @@
         }
 
         <button @onclick="AddAnswer" class="btn btn-success mb-3">Přidat odpověď</button>
-
+        @*Zvolení správné odpovědi*@
         <label>Správná odpověď:</label>
         <select @bind="NewQuestion.CorrectAnswerIndex" class="form-control">
             @for (var i = 0; i < NewQuestion.Answers.Count; i++)
@@ -38,10 +38,10 @@
     </div>
 }
 
-<button @onclick="ToggleEditMode" class="btn btn-secondary mt-2">@((IsEditMode) ? "Ukončit úpravy" : "Přidání otázek")</button>
+<button @onclick="ToggleEditMode" class="btn btn-primary mt-2">@((IsEditMode) ? "Ukončit úpravy" : "Přidání otázek")</button>
 
 <h3>Seznam otázek</h3>
-
+@*výpis z listu otázek*@
 @foreach (var question in Questions)
 {
     <div class="box-quiz">

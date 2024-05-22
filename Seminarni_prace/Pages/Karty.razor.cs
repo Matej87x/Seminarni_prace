@@ -22,12 +22,13 @@ namespace Seminarni_prace.Pages
             AddToKartysinit();
             
         }
+        //Přidání karet po načtení stránky
         public void AddToKartysinit()
         {
             Kart = new Models.Kartago("Sněžka", "Která hora je nejvyšší v ČŘ");
             Kartys.Add(Kart);
         }
-       
+       //Přidání karet uživateelm
        public void AddToKartys(){
             if (!string.IsNullOrWhiteSpace(Question) && !string.IsNullOrWhiteSpace(Answer))
             {
